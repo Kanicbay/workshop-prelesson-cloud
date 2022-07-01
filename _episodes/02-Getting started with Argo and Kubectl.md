@@ -92,6 +92,23 @@ Namespaces are a kind of reservations in your K8s cluster.  Let's create one for
 kubectl create ns <NAMESPACE>
 ```
 
+> ## Kubernetes namespaces
+>
+> The above commands as well as most of the following use a flag `-n argo`,
+> which defines the namespace in which the resources are queried or created.
+> [Namespaces](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/)
+> separate resources in the cluster, effectively giving you multiple virtual
+> clusters within a cluster.
+>
+> You can change the default namespace to `argo` as follows:
+>
+> ~~~
+> kubectl config set-context --current --namespace=argo
+> ~~~
+> {: .bash}
+>
+{: .testimonial}
+
 ## Argo as a workflow engine
 
 While jobs can also be run manually, a workflow engine makes defining and
@@ -103,7 +120,6 @@ Install it into your working environment with the following commands
 While jobs can also be run manually, a workflow engine makes defining and submitting jobs easier. In this tutorial, we use [argo quick start](https://argoproj.github.io/argo-workflows/quick-start/) page to install it:
 
 ```
-kubectl create clusterrolebinding YOURNAME-cluster-admin-binding --clusterrole=cluster-admin --user=YOUREMAIL@gmail.com
 kubectl create ns argo
 kubectl apply -n argo -f https://raw.githubusercontent.com/argoproj/argo-workflows/stable/manifests/quick-start-postgres.yaml
 ```
@@ -137,30 +153,5 @@ argo list -n argo
 argo get -n argo @latest
 argo logs -n argo @latest
 ```
-
-
-Please mind that it is important to delete your workflows once they have
-completed. If you do not do this, the pods associated with the workflow
-will remain scheduled in the cluster, which might lead to additional charges.
-You will learn how to automatically remove them later.
-
-
-> ## Kubernetes namespaces
->
-> The above commands as well as most of the following use a flag `-n argo`,
-> which defines the namespace in which the resources are queried or created.
-> [Namespaces](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/)
-> separate resources in the cluster, effectively giving you multiple virtual
-> clusters within a cluster.
->
-> You can change the default namespace to `argo` as follows:
->
-> ~~~
-> kubectl config set-context --current --namespace=argo
-> ~~~
-> {: .bash}
->
-{: .testimonial}
-
 
 {% include links.md %}
