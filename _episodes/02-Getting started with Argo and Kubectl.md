@@ -132,9 +132,13 @@ sudo mv ./argo-linux-amd64 /usr/local/bin/argo
 
 argo version
 ```
-## Run a simple test workflow
+## Install argo as a workflow engine
 
-To test the setup, run a simple test workflow with
+While jobs can also be run manually, a workflow engine makes defining and
+submitting jobs easier. In this tutorial, we use
+[argo](https://argoproj.github.io/argo/quick-start/).
+Install it into your working environment with the following commands
+(all commands to be entered into the cloud shell):
 
 ```bash
 kubectl create ns argo
