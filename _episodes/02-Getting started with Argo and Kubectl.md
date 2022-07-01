@@ -132,9 +132,10 @@ sudo mv ./argo-linux-amd64 /usr/local/bin/argo
 
 argo version
 ```
-```
+## Run a simple test workflow
 
-```
+To test the setup, run a simple test workflow with
+
 ```bash
 kubectl create ns argo
 kubectl apply -n argo -f https://raw.githubusercontent.com/argoproj/argo/stable/manifests/quick-start-postgres.yaml
