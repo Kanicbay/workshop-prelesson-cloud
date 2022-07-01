@@ -1,5 +1,5 @@
 ---
-title: "Getting started with Google Kubernetes Engine"
+title: "Getting started with Argo and Kubectl"
 teaching: 15
 exercises: 15
 questions:
