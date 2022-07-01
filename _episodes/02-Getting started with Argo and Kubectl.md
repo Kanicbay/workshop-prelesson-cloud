@@ -197,7 +197,7 @@ Please mind that it is important to delete your workflows once they have
 completed. If you do not do this, the pods associated with the workflow
 will remain scheduled in the cluster, which might lead to additional charges.
 You will learn how to automatically remove them later.
-
+```
 > ## Kubernetes namespaces
 >
 > The above commands as well as most of the following use a flag `-n argo`,
