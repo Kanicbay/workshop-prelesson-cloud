@@ -3,14 +3,20 @@ title: "Getting started with Google Kubernetes Engine"
 teaching: 15
 exercises: 15
 questions:
-- "How to create a cluster on Google Cloud Platform?"
-- "How to setup Google Kubernetes Engine?"
 - "How to setup a workflow engine to submit jobs?"
-- "How to run a simple job?"
+- "How to use Kubectl commands?"
+- "What is kubectl?"
+- "What is Argo workflows?"
+- "What kind of services/resources will I need to instantiate in my cluster?"
 objectives:
 - "Understand how to run a simple workflows in a commercial cloud environment"
+- "Lear what the kubectl command can do"
+- "Appreciate the necessity for the Argo workflows tool (or similar)"
+- "Lear how to set up different services/resources to get the most of your cluster"
 keypoints:
-- "With Kubernetes one can run workflows similar to a batch system"
+- "kubectl is the ruler of GKE"
+- "Argo is a very useful tool for running workflows and parallel jobs"
+- "To be able to write, read and extract data, a few services/resources need to be set up on the GCP"
 ---
 
 ## Get access to Google Cloud Platform
@@ -109,57 +115,12 @@ Apply:
 ```shell
 kubectl patch configmap workflow-controller-configmap -n argo --patch "$(cat patch-workflow-controller-configmap.yaml)"
 ```
-
-## Run a simple test workflow
-
-To test the setup, run a simple test workflow with
-
-```bash
-argo submit -n argo --watch https://raw.githubusercontent.com/argoproj/argo/master/examples/hello-world.yaml
-argo list -n argo
-argo get -n argo @latest
-argo logs -n argo @latest
-argo delete -n argo @latest
-```
-
-Please mind that it is important to delete your workflows once they have
-completed. If you do not do this, the pods associated with the workflow
-will remain scheduled in the cluster, which might lead to additional charges.
-You will learn how to automatically remove them later.
-
-> ## Kubernetes namespaces
->
-> The above commands as well as most of the following use a flag `-n argo`,
-> which defines the namespace in which the resources are queried or created.
-> [Namespaces](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/)
-> separate resources in the cluster, effectively giving you multiple virtual
-> clusters within a cluster.
->
-> You can change the default namespace to `argo` as follows:
->
-> ~~~
-> kubectl config set-context --current --namespace=argo
-> ~~~
-> {: .bash}
->
-{: .testimonial}
-
 ---
 title: "Kubectl and additional tools and services"
 teaching: 20
 exercises: 0
 questions:
-- "What is kubectl?"
-- "What is Argo workflows?"
-- "What kind of services/resources will I need to instantiate in my cluster?"
-objectives:
-- "Lear what the kubectl command can do"
-- "Appreciate the necessity for the Argo workflows tool (or similar)"
-- "Lear how to set up different services/resources to get the most of your cluster"
-keypoints:
-- "kubectl is the ruler of GKE"
-- "Argo is a very useful tool for running workflows and parallel jobs"
-- "To be able to write, read and extract data, a few services/resources need to be set up on the GCP"
+
 ---
 
 ## The `kubectl` command
@@ -433,6 +394,41 @@ As you can see all these tasks take time.  The good news is that there are tools
 
 You will continue learning about this, hands-on, tomorrow, but concentrating on analysis workflows.
 
+
+
+## Run a simple test workflow
+
+To test the setup, run a simple test workflow with
+
+```bash
+argo submit -n argo --watch https://raw.githubusercontent.com/argoproj/argo/master/examples/hello-world.yaml
+argo list -n argo
+argo get -n argo @latest
+argo logs -n argo @latest
+argo delete -n argo @latest
+```
+
+Please mind that it is important to delete your workflows once they have
+completed. If you do not do this, the pods associated with the workflow
+will remain scheduled in the cluster, which might lead to additional charges.
+You will learn how to automatically remove them later.
+
+> ## Kubernetes namespaces
+>
+> The above commands as well as most of the following use a flag `-n argo`,
+> which defines the namespace in which the resources are queried or created.
+> [Namespaces](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/)
+> separate resources in the cluster, effectively giving you multiple virtual
+> clusters within a cluster.
+>
+> You can change the default namespace to `argo` as follows:
+>
+> ~~~
+> kubectl config set-context --current --namespace=argo
+> ~~~
+> {: .bash}
+>
+{: .testimonial}
 
 
 {% include links.md %}
