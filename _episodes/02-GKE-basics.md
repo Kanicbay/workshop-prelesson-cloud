@@ -8,11 +8,13 @@ questions:
 - "What is kubectl?"
 - "What is Argo workflows?"
 - "What kind of services/resources will I need to instantiate in my cluster?"
+
 objectives:
 - "Understand how to run a simple workflows in a commercial cloud environment"
 - "Lear what the kubectl command can do"
 - "Appreciate the necessity for the Argo workflows tool (or similar)"
 - "Lear how to set up different services/resources to get the most of your cluster"
+
 keypoints:
 - "kubectl is the ruler of GKE"
 - "Argo is a very useful tool for running workflows and parallel jobs"
@@ -67,6 +69,33 @@ submitting jobs easier. In this tutorial, we use
 Install it into your working environment with the following commands
 (all commands to be entered into the cloud shell):
 
+While jobs can also be run manually, a workflow engine makes defining and submitting jobs easier. In this tutorial, we use [argo quick start](https://argoproj.github.io/argo-workflows/quick-start/) page to install it:
+
+```
+kubectl create clusterrolebinding YOURNAME-cluster-admin-binding --clusterrole=cluster-admin --user=YOUREMAIL@gmail.com
+kubectl create ns argo
+kubectl apply -n argo -f https://raw.githubusercontent.com/argoproj/argo-workflows/stable/manifests/quick-start-postgres.yaml
+```
+
+Download argo CLI:
+
+```
+# Download the binary
+curl -sLO https://github.com/argoproj/argo-workflows/releases/download/v3.1.2/argo-linux-amd64.gz
+
+# Unzip
+gunzip argo-linux-amd64.gz
+
+# Make binary executable
+chmod +x argo-linux-amd64
+
+# Move binary to path
+sudo mv ./argo-linux-amd64 /usr/local/bin/argo
+
+# Test installation
+argo version
+```
+
 ```bash
 kubectl create ns argo
 kubectl apply -n argo -f https://raw.githubusercontent.com/argoproj/argo/stable/manifests/quick-start-postgres.yaml
@@ -115,13 +144,15 @@ Apply:
 ```shell
 kubectl patch configmap workflow-controller-configmap -n argo --patch "$(cat patch-workflow-controller-configmap.yaml)"
 ```
----
-title: "Kubectl and additional tools and services"
-teaching: 20
-exercises: 0
-questions:
 
----
+Run a simple test flow:
+
+```
+argo submit -n argo --watch https://raw.githubusercontent.com/argoproj/argo-workflows/master/examples/hello-world.yaml
+argo list -n argo
+argo get -n argo @latest
+argo logs -n argo @latest
+```
 
 ## The `kubectl` command
 
@@ -239,44 +270,6 @@ Namespaces are a kind of reservations in your K8s cluster.  Let's create one for
 kubectl create ns <NAMESPACE>
 ```
 
-## Argo
-
-While jobs can also be run manually, a workflow engine makes defining and submitting jobs easier. In this tutorial, we use [argo quick start](https://argoproj.github.io/argo-workflows/quick-start/) page to install it:
-
-```
-kubectl create clusterrolebinding YOURNAME-cluster-admin-binding --clusterrole=cluster-admin --user=YOUREMAIL@gmail.com
-kubectl create ns argo
-kubectl apply -n argo -f https://raw.githubusercontent.com/argoproj/argo-workflows/stable/manifests/quick-start-postgres.yaml
-```
-
-Download argo CLI:
-
-```
-# Download the binary
-curl -sLO https://github.com/argoproj/argo-workflows/releases/download/v3.1.2/argo-linux-amd64.gz
-
-# Unzip
-gunzip argo-linux-amd64.gz
-
-# Make binary executable
-chmod +x argo-linux-amd64
-
-# Move binary to path
-sudo mv ./argo-linux-amd64 /usr/local/bin/argo
-
-# Test installation
-argo version
-```
-
-
-Run a simple test flow:
-
-```
-argo submit -n argo --watch https://raw.githubusercontent.com/argoproj/argo-workflows/master/examples/hello-world.yaml
-argo list -n argo
-argo get -n argo @latest
-argo logs -n argo @latest
-```
 
 
 ## Storage volumes
