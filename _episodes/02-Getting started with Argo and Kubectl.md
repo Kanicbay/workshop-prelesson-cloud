@@ -108,66 +108,6 @@ kubectl create ns argo
 kubectl apply -n argo -f https://raw.githubusercontent.com/argoproj/argo-workflows/stable/manifests/quick-start-postgres.yaml
 ```
 
-Download argo CLI:
-
-```
-* Download the binary
-
-curl -sLO https://github.com/argoproj/argo-workflows/releases/download/v3.1.2/argo-linux-amd64.gz
-
-
-# Unzip
-
-gunzip argo-linux-amd64.gz
-
-# Make binary executable
-
-chmod +x argo-linux-amd64
-
-# Move binary to path
-
-sudo mv ./argo-linux-amd64 /usr/local/bin/argo
-
-# Test installation
-
-argo version
-```
-## Install argo as a workflow engine
-
-While jobs can also be run manually, a workflow engine makes defining and
-submitting jobs easier. In this tutorial, we use
-[argo](https://argoproj.github.io/argo/quick-start/).
-Install it into your working environment with the following commands
-(all commands to be entered into the cloud shell):
-
-```bash
-kubectl create ns argo
-kubectl apply -n argo -f https://raw.githubusercontent.com/argoproj/argo/stable/manifests/quick-start-postgres.yaml
-curl -sLO https://github.com/argoproj/argo/releases/download/v2.11.1/argo-linux-amd64.gz
-gunzip argo-linux-amd64.gz
-chmod +x argo-linux-amd64
-sudo mv ./argo-linux-amd64 /usr/local/bin/argo
-```
-
-This will also install the argo binary, which makes managing the workflows
-easier.
-
-> ## Reconnecting after longer time away
->
-> In case you leave your computer, you might have to reconnect to the CloudShell
-> again, and also on a different computer. If the `argo` command is not found,
-> run the command above again starting from the `curl` command.
->
-{: .callout}
-
-You need to execute the following command so that the argo workflow controller
-has sufficient rights to manage the workflow pods.
-Replace `XXX` with the number for the login credentials you received.
-
-```bash
-kubectl create clusterrolebinding cern-cms-cluster-admin-binding --clusterrole=cluster-admin --user=cms-gXXX@arkivum.com
-```
-
 You can now check that argo is available with
 
 ```bash
@@ -198,14 +138,11 @@ argo get -n argo @latest
 argo logs -n argo @latest
 ```
 
-
-kubectl create ns <NAMESPACE>
-```
-
 Please mind that it is important to delete your workflows once they have
 completed. If you do not do this, the pods associated with the workflow
 will remain scheduled in the cluster, which might lead to additional charges.
 You will learn how to automatically remove them later.
+
 ```
 > ## Kubernetes namespaces
 >
