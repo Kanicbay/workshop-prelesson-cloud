@@ -21,7 +21,76 @@ keypoints:
 - "To be able to write, read and extract data, a few services/resources need to be set up on the GCP"
 ---
 
-## Install argo as a workflow engine
+## The `kubectl` command
+
+Just as `gcloud` is the *one command to rule them all* for the GCP, the `kubectl` command is the main tool for interacting with your K8s cluster. You will use it to do essentially anything in the cluster. [Here](https://kubernetes.io/docs/reference/kubectl/cheatsheet/) is the official *cheatsheet*, which is very useful but already very long.
+
+Let's run a few examples.
+
+* Get the status of the nodes in your cluster:
+
+```
+kubectl get nodes  
+```
+
+* Get the cluster info:
+
+```
+kubectl cluster-info  # Display addresses of the master and services
+
+```
+
+Let's list some kubernetes components:
+
+* Check pods
+
+```
+kubectl get pod
+```
+
+* Check the services
+
+```
+kubectl get services
+```
+
+We don't have much going on.  Let's create some components.
+
+* Inspect the `create` operation
+
+```
+kubectl create -h
+```
+Note there is no `pod` on the list, so in K8s you don't create pods but *deployments*.  These will create pods, which will run under the hood.
+
+* Let's create an application, it does not matter which.  Let's go for `nginx`:
+
+```
+kubectl create deployment mynginx-depl --image=nginx
+```
+
+The `nginx` image will be pulled down from the Docker Hub.
+This is the most minimalist way of creating a deployment.
+
+* Check the deployments
+
+```
+kubectl get deployment
+```
+
+* Check pods
+
+```
+kubectl get pod
+```
+
+## Namespaces
+
+Namespaces are a kind of reservations in your K8s cluster.  Let's create one for the Argo workflow we will user
+
+```
+
+## Argo as a workflow engine
 
 While jobs can also be run manually, a workflow engine makes defining and
 submitting jobs easier. In this tutorial, we use
@@ -114,74 +183,7 @@ argo get -n argo @latest
 argo logs -n argo @latest
 ```
 
-## The `kubectl` command
 
-Just as `gcloud` is the *one command to rule them all* for the GCP, the `kubectl` command is the main tool for interacting with your K8s cluster. You will use it to do essentially anything in the cluster. [Here](https://kubernetes.io/docs/reference/kubectl/cheatsheet/) is the official *cheatsheet*, which is very useful but already very long.
-
-Let's run a few examples.
-
-* Get the status of the nodes in your cluster:
-
-```
-kubectl get nodes  
-```
-
-* Get the cluster info:
-
-```
-kubectl cluster-info  # Display addresses of the master and services
-
-```
-
-Let's list some kubernetes components:
-
-* Check pods
-
-```
-kubectl get pod
-```
-
-* Check the services
-
-```
-kubectl get services
-```
-
-We don't have much going on.  Let's create some components.
-
-* Inspect the `create` operation
-
-```
-kubectl create -h
-```
-Note there is no `pod` on the list, so in K8s you don't create pods but *deployments*.  These will create pods, which will run under the hood.
-
-* Let's create an application, it does not matter which.  Let's go for `nginx`:
-
-```
-kubectl create deployment mynginx-depl --image=nginx
-```
-
-The `nginx` image will be pulled down from the Docker Hub.
-This is the most minimalist way of creating a deployment.
-
-* Check the deployments
-
-```
-kubectl get deployment
-```
-
-* Check pods
-
-```
-kubectl get pod
-```
-
-## Namespaces
-
-Namespaces are a kind of reservations in your K8s cluster.  Let's create one for the Argo workflow we will user
-
-```
 kubectl create ns <NAMESPACE>
 ```
 
