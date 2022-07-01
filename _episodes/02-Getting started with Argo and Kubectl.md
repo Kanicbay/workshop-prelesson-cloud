@@ -89,6 +89,8 @@ kubectl get pod
 Namespaces are a kind of reservations in your K8s cluster.  Let's create one for the Argo workflow we will user
 
 ```
+kubectl create ns <NAMESPACE>
+```
 
 ## Argo as a workflow engine
 
